@@ -1,0 +1,22 @@
+query getHeros {
+  constants {
+    heroes {
+      id
+      name
+      displayName
+      shortName
+    }
+  }
+}
+
+query getItems {
+  constants {
+    items {
+      id
+      name
+      displayName
+      shortName
+      image
+    }
+  }
+}
