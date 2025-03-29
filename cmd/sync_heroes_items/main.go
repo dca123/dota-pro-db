@@ -14,7 +14,7 @@ import (
 )
 
 var API_KEY = os.Getenv("STRATZ_API_KEY")
-var URL = fmt.Sprintf("https://api.stratz.com/graphql?key=%s", API_KEY)
+var URL = "https://api.stratz.com/graphql"
 
 type authedTransport struct {
 	wrapped http.RoundTripper
@@ -22,9 +22,9 @@ type authedTransport struct {
 
 func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.Header.Set("User-Agent", "STRATZ_API")
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", API_KEY))
 	return t.wrapped.RoundTrip(req)
 }
-
 func main() {
 	ctx := context.Background()
 	client := graphql.NewClient(URL, &http.Client{
@@ -47,7 +47,7 @@ func main() {
 
 	items := itemsRes.Constants.Items
 
-	db, err := sql.Open("sqlite3", "./test.db")
+	db, err := sql.Open("sqlite3", "../../test.db")
 	if err != nil {
 		log.Fatal(err)
 	}

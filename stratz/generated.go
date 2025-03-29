@@ -8,6 +8,206 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
+type GameModeEnumType string
+
+const (
+	GameModeEnumTypeNone                  GameModeEnumType = "NONE"
+	GameModeEnumTypeAllPick               GameModeEnumType = "ALL_PICK"
+	GameModeEnumTypeCaptainsMode          GameModeEnumType = "CAPTAINS_MODE"
+	GameModeEnumTypeRandomDraft           GameModeEnumType = "RANDOM_DRAFT"
+	GameModeEnumTypeSingleDraft           GameModeEnumType = "SINGLE_DRAFT"
+	GameModeEnumTypeAllRandom             GameModeEnumType = "ALL_RANDOM"
+	GameModeEnumTypeIntro                 GameModeEnumType = "INTRO"
+	GameModeEnumTypeTheDiretide           GameModeEnumType = "THE_DIRETIDE"
+	GameModeEnumTypeReverseCaptainsMode   GameModeEnumType = "REVERSE_CAPTAINS_MODE"
+	GameModeEnumTypeTheGreeviling         GameModeEnumType = "THE_GREEVILING"
+	GameModeEnumTypeTutorial              GameModeEnumType = "TUTORIAL"
+	GameModeEnumTypeMidOnly               GameModeEnumType = "MID_ONLY"
+	GameModeEnumTypeLeastPlayed           GameModeEnumType = "LEAST_PLAYED"
+	GameModeEnumTypeNewPlayerPool         GameModeEnumType = "NEW_PLAYER_POOL"
+	GameModeEnumTypeCompendiumMatchmaking GameModeEnumType = "COMPENDIUM_MATCHMAKING"
+	GameModeEnumTypeCustom                GameModeEnumType = "CUSTOM"
+	GameModeEnumTypeCaptainsDraft         GameModeEnumType = "CAPTAINS_DRAFT"
+	GameModeEnumTypeBalancedDraft         GameModeEnumType = "BALANCED_DRAFT"
+	GameModeEnumTypeAbilityDraft          GameModeEnumType = "ABILITY_DRAFT"
+	GameModeEnumTypeEvent                 GameModeEnumType = "EVENT"
+	GameModeEnumTypeAllRandomDeathMatch   GameModeEnumType = "ALL_RANDOM_DEATH_MATCH"
+	GameModeEnumTypeSoloMid               GameModeEnumType = "SOLO_MID"
+	GameModeEnumTypeAllPickRanked         GameModeEnumType = "ALL_PICK_RANKED"
+	GameModeEnumTypeTurbo                 GameModeEnumType = "TURBO"
+	GameModeEnumTypeMutation              GameModeEnumType = "MUTATION"
+	GameModeEnumTypeUnknown               GameModeEnumType = "UNKNOWN"
+)
+
+var AllGameModeEnumType = []GameModeEnumType{
+	GameModeEnumTypeNone,
+	GameModeEnumTypeAllPick,
+	GameModeEnumTypeCaptainsMode,
+	GameModeEnumTypeRandomDraft,
+	GameModeEnumTypeSingleDraft,
+	GameModeEnumTypeAllRandom,
+	GameModeEnumTypeIntro,
+	GameModeEnumTypeTheDiretide,
+	GameModeEnumTypeReverseCaptainsMode,
+	GameModeEnumTypeTheGreeviling,
+	GameModeEnumTypeTutorial,
+	GameModeEnumTypeMidOnly,
+	GameModeEnumTypeLeastPlayed,
+	GameModeEnumTypeNewPlayerPool,
+	GameModeEnumTypeCompendiumMatchmaking,
+	GameModeEnumTypeCustom,
+	GameModeEnumTypeCaptainsDraft,
+	GameModeEnumTypeBalancedDraft,
+	GameModeEnumTypeAbilityDraft,
+	GameModeEnumTypeEvent,
+	GameModeEnumTypeAllRandomDeathMatch,
+	GameModeEnumTypeSoloMid,
+	GameModeEnumTypeAllPickRanked,
+	GameModeEnumTypeTurbo,
+	GameModeEnumTypeMutation,
+	GameModeEnumTypeUnknown,
+}
+
+type LobbyTypeEnum string
+
+const (
+	LobbyTypeEnumUnranked   LobbyTypeEnum = "UNRANKED"
+	LobbyTypeEnumPractice   LobbyTypeEnum = "PRACTICE"
+	LobbyTypeEnumTournament LobbyTypeEnum = "TOURNAMENT"
+	LobbyTypeEnumTutorial   LobbyTypeEnum = "TUTORIAL"
+	LobbyTypeEnumCoopVsBots LobbyTypeEnum = "COOP_VS_BOTS"
+	LobbyTypeEnumTeamMatch  LobbyTypeEnum = "TEAM_MATCH"
+	LobbyTypeEnumSoloQueue  LobbyTypeEnum = "SOLO_QUEUE"
+	LobbyTypeEnumRanked     LobbyTypeEnum = "RANKED"
+	LobbyTypeEnumSoloMid    LobbyTypeEnum = "SOLO_MID"
+	LobbyTypeEnumBattleCup  LobbyTypeEnum = "BATTLE_CUP"
+	LobbyTypeEnumEvent      LobbyTypeEnum = "EVENT"
+	LobbyTypeEnumDireTide   LobbyTypeEnum = "DIRE_TIDE"
+)
+
+var AllLobbyTypeEnum = []LobbyTypeEnum{
+	LobbyTypeEnumUnranked,
+	LobbyTypeEnumPractice,
+	LobbyTypeEnumTournament,
+	LobbyTypeEnumTutorial,
+	LobbyTypeEnumCoopVsBots,
+	LobbyTypeEnumTeamMatch,
+	LobbyTypeEnumSoloQueue,
+	LobbyTypeEnumRanked,
+	LobbyTypeEnumSoloMid,
+	LobbyTypeEnumBattleCup,
+	LobbyTypeEnumEvent,
+	LobbyTypeEnumDireTide,
+}
+
+type MatchAnalysisOutcomeType string
+
+const (
+	MatchAnalysisOutcomeTypeNone      MatchAnalysisOutcomeType = "NONE"
+	MatchAnalysisOutcomeTypeStomped   MatchAnalysisOutcomeType = "STOMPED"
+	MatchAnalysisOutcomeTypeComeback  MatchAnalysisOutcomeType = "COMEBACK"
+	MatchAnalysisOutcomeTypeCloseGame MatchAnalysisOutcomeType = "CLOSE_GAME"
+)
+
+var AllMatchAnalysisOutcomeType = []MatchAnalysisOutcomeType{
+	MatchAnalysisOutcomeTypeNone,
+	MatchAnalysisOutcomeTypeStomped,
+	MatchAnalysisOutcomeTypeComeback,
+	MatchAnalysisOutcomeTypeCloseGame,
+}
+
+type MatchLaneType string
+
+const (
+	MatchLaneTypeRoaming  MatchLaneType = "ROAMING"
+	MatchLaneTypeSafeLane MatchLaneType = "SAFE_LANE"
+	MatchLaneTypeMidLane  MatchLaneType = "MID_LANE"
+	MatchLaneTypeOffLane  MatchLaneType = "OFF_LANE"
+	MatchLaneTypeJungle   MatchLaneType = "JUNGLE"
+	MatchLaneTypeUnknown  MatchLaneType = "UNKNOWN"
+)
+
+var AllMatchLaneType = []MatchLaneType{
+	MatchLaneTypeRoaming,
+	MatchLaneTypeSafeLane,
+	MatchLaneTypeMidLane,
+	MatchLaneTypeOffLane,
+	MatchLaneTypeJungle,
+	MatchLaneTypeUnknown,
+}
+
+type MatchPlayerPositionType string
+
+const (
+	MatchPlayerPositionTypePosition1 MatchPlayerPositionType = "POSITION_1"
+	MatchPlayerPositionTypePosition2 MatchPlayerPositionType = "POSITION_2"
+	MatchPlayerPositionTypePosition3 MatchPlayerPositionType = "POSITION_3"
+	MatchPlayerPositionTypePosition4 MatchPlayerPositionType = "POSITION_4"
+	MatchPlayerPositionTypePosition5 MatchPlayerPositionType = "POSITION_5"
+	MatchPlayerPositionTypeUnknown   MatchPlayerPositionType = "UNKNOWN"
+	MatchPlayerPositionTypeFiltered  MatchPlayerPositionType = "FILTERED"
+	MatchPlayerPositionTypeAll       MatchPlayerPositionType = "ALL"
+)
+
+var AllMatchPlayerPositionType = []MatchPlayerPositionType{
+	MatchPlayerPositionTypePosition1,
+	MatchPlayerPositionTypePosition2,
+	MatchPlayerPositionTypePosition3,
+	MatchPlayerPositionTypePosition4,
+	MatchPlayerPositionTypePosition5,
+	MatchPlayerPositionTypeUnknown,
+	MatchPlayerPositionTypeFiltered,
+	MatchPlayerPositionTypeAll,
+}
+
+type MatchPlayerRoleType string
+
+const (
+	MatchPlayerRoleTypeCore         MatchPlayerRoleType = "CORE"
+	MatchPlayerRoleTypeLightSupport MatchPlayerRoleType = "LIGHT_SUPPORT"
+	MatchPlayerRoleTypeHardSupport  MatchPlayerRoleType = "HARD_SUPPORT"
+	MatchPlayerRoleTypeUnknown      MatchPlayerRoleType = "UNKNOWN"
+)
+
+var AllMatchPlayerRoleType = []MatchPlayerRoleType{
+	MatchPlayerRoleTypeCore,
+	MatchPlayerRoleTypeLightSupport,
+	MatchPlayerRoleTypeHardSupport,
+	MatchPlayerRoleTypeUnknown,
+}
+
+type SeriesEnum string
+
+const (
+	SeriesEnumBestOfOne   SeriesEnum = "BEST_OF_ONE"
+	SeriesEnumBestOfThree SeriesEnum = "BEST_OF_THREE"
+	SeriesEnumBestOfFive  SeriesEnum = "BEST_OF_FIVE"
+	SeriesEnumBestOfTwo   SeriesEnum = "BEST_OF_TWO"
+)
+
+var AllSeriesEnum = []SeriesEnum{
+	SeriesEnumBestOfOne,
+	SeriesEnumBestOfThree,
+	SeriesEnumBestOfFive,
+	SeriesEnumBestOfTwo,
+}
+
+// __getLeagueMatchesInput is used internally by genqlient
+type __getLeagueMatchesInput struct {
+	LeagueId int `json:"leagueId"`
+	Take     int `json:"take"`
+	Skip     int `json:"skip"`
+}
+
+// GetLeagueId returns __getLeagueMatchesInput.LeagueId, and is useful for accessing the field via an interface.
+func (v *__getLeagueMatchesInput) GetLeagueId() int { return v.LeagueId }
+
+// GetTake returns __getLeagueMatchesInput.Take, and is useful for accessing the field via an interface.
+func (v *__getLeagueMatchesInput) GetTake() int { return v.Take }
+
+// GetSkip returns __getLeagueMatchesInput.Skip, and is useful for accessing the field via an interface.
+func (v *__getLeagueMatchesInput) GetSkip() int { return v.Skip }
+
 // getHerosConstantsConstantQuery includes the requested fields of the GraphQL type ConstantQuery.
 type getHerosConstantsConstantQuery struct {
 	Heroes []getHerosConstantsConstantQueryHeroesHeroType `json:"heroes"`
@@ -91,6 +291,565 @@ type getItemsResponse struct {
 // GetConstants returns getItemsResponse.Constants, and is useful for accessing the field via an interface.
 func (v *getItemsResponse) GetConstants() getItemsConstantsConstantQuery { return v.Constants }
 
+// getLeagueMatchesLeagueLeagueType includes the requested fields of the GraphQL type LeagueType.
+type getLeagueMatchesLeagueLeagueType struct {
+	Id          int                                                `json:"id"`
+	DisplayName string                                             `json:"displayName"`
+	Matches     []getLeagueMatchesLeagueLeagueTypeMatchesMatchType `json:"matches"`
+}
+
+// GetId returns getLeagueMatchesLeagueLeagueType.Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueType) GetId() int { return v.Id }
+
+// GetDisplayName returns getLeagueMatchesLeagueLeagueType.DisplayName, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueType) GetDisplayName() string { return v.DisplayName }
+
+// GetMatches returns getLeagueMatchesLeagueLeagueType.Matches, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueType) GetMatches() []getLeagueMatchesLeagueLeagueTypeMatchesMatchType {
+	return v.Matches
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchType includes the requested fields of the GraphQL type MatchType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchType struct {
+	Id                    int                                                                 `json:"id"`
+	DidRadiantWin         bool                                                                `json:"didRadiantWin"`
+	DurationSeconds       int                                                                 `json:"durationSeconds"`
+	StartDateTime         int                                                                 `json:"startDateTime"`
+	EndDateTime           int                                                                 `json:"endDateTime"`
+	TowerStatusRadiant    int                                                                 `json:"towerStatusRadiant"`
+	TowerStatusDire       int                                                                 `json:"towerStatusDire"`
+	BarracksStatusRadiant int                                                                 `json:"barracksStatusRadiant"`
+	BarracksStatusDire    int                                                                 `json:"barracksStatusDire"`
+	FirstBloodTime        int                                                                 `json:"firstBloodTime"`
+	LobbyType             LobbyTypeEnum                                                       `json:"lobbyType"`
+	GameMode              GameModeEnumType                                                    `json:"gameMode"`
+	RadiantTeamId         int                                                                 `json:"radiantTeamId"`
+	RadiantTeam           getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType `json:"radiantTeam"`
+	DireTeamId            int                                                                 `json:"direTeamId"`
+	DireTeam              getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType    `json:"direTeam"`
+	SeriesId              int                                                                 `json:"seriesId"`
+	Series                getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType    `json:"series"`
+	GameVersionId         int                                                                 `json:"gameVersionId"`
+	// This begins at -60 to 0 seconds (Index 0).
+	RadiantNetworthLeads []int `json:"radiantNetworthLeads"`
+	// This begins at -60 to 0 seconds (Index 0).
+	RadiantExperienceLeads []int `json:"radiantExperienceLeads"`
+	// This begins at -60 to 0 seconds (Index 0).
+	PickBans        []getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType `json:"pickBans"`
+	AnalysisOutcome MatchAnalysisOutcomeType                                                        `json:"analysisOutcome"`
+	Players         []getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType        `json:"players"`
+}
+
+// GetId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetId() int { return v.Id }
+
+// GetDidRadiantWin returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.DidRadiantWin, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetDidRadiantWin() bool {
+	return v.DidRadiantWin
+}
+
+// GetDurationSeconds returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.DurationSeconds, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetDurationSeconds() int {
+	return v.DurationSeconds
+}
+
+// GetStartDateTime returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.StartDateTime, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetStartDateTime() int {
+	return v.StartDateTime
+}
+
+// GetEndDateTime returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.EndDateTime, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetEndDateTime() int { return v.EndDateTime }
+
+// GetTowerStatusRadiant returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.TowerStatusRadiant, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetTowerStatusRadiant() int {
+	return v.TowerStatusRadiant
+}
+
+// GetTowerStatusDire returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.TowerStatusDire, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetTowerStatusDire() int {
+	return v.TowerStatusDire
+}
+
+// GetBarracksStatusRadiant returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.BarracksStatusRadiant, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetBarracksStatusRadiant() int {
+	return v.BarracksStatusRadiant
+}
+
+// GetBarracksStatusDire returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.BarracksStatusDire, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetBarracksStatusDire() int {
+	return v.BarracksStatusDire
+}
+
+// GetFirstBloodTime returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.FirstBloodTime, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetFirstBloodTime() int {
+	return v.FirstBloodTime
+}
+
+// GetLobbyType returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.LobbyType, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetLobbyType() LobbyTypeEnum {
+	return v.LobbyType
+}
+
+// GetGameMode returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.GameMode, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetGameMode() GameModeEnumType {
+	return v.GameMode
+}
+
+// GetRadiantTeamId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.RadiantTeamId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetRadiantTeamId() int {
+	return v.RadiantTeamId
+}
+
+// GetRadiantTeam returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.RadiantTeam, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetRadiantTeam() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType {
+	return v.RadiantTeam
+}
+
+// GetDireTeamId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.DireTeamId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetDireTeamId() int { return v.DireTeamId }
+
+// GetDireTeam returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.DireTeam, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetDireTeam() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType {
+	return v.DireTeam
+}
+
+// GetSeriesId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.SeriesId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetSeriesId() int { return v.SeriesId }
+
+// GetSeries returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.Series, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetSeries() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType {
+	return v.Series
+}
+
+// GetGameVersionId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.GameVersionId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetGameVersionId() int {
+	return v.GameVersionId
+}
+
+// GetRadiantNetworthLeads returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.RadiantNetworthLeads, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetRadiantNetworthLeads() []int {
+	return v.RadiantNetworthLeads
+}
+
+// GetRadiantExperienceLeads returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.RadiantExperienceLeads, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetRadiantExperienceLeads() []int {
+	return v.RadiantExperienceLeads
+}
+
+// GetPickBans returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.PickBans, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetPickBans() []getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType {
+	return v.PickBans
+}
+
+// GetAnalysisOutcome returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.AnalysisOutcome, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetAnalysisOutcome() MatchAnalysisOutcomeType {
+	return v.AnalysisOutcome
+}
+
+// GetPlayers returns getLeagueMatchesLeagueLeagueTypeMatchesMatchType.Players, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchType) GetPlayers() []getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType {
+	return v.Players
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType includes the requested fields of the GraphQL type TeamType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+	Tag  string `json:"tag"`
+}
+
+// GetId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType.Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType) GetId() int { return v.Id }
+
+// GetName returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType.Name, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType) GetName() string {
+	return v.Name
+}
+
+// GetTag returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType.Tag, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeDireTeamTeamType) GetTag() string {
+	return v.Tag
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType includes the requested fields of the GraphQL type MatchStatsPickBanType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType struct {
+	IsPick    bool `json:"isPick"`
+	HeroId    int  `json:"heroId"`
+	Order     int  `json:"order"`
+	IsRadiant bool `json:"isRadiant"`
+}
+
+// GetIsPick returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType.IsPick, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType) GetIsPick() bool {
+	return v.IsPick
+}
+
+// GetHeroId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType.HeroId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType) GetHeroId() int {
+	return v.HeroId
+}
+
+// GetOrder returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType.Order, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType) GetOrder() int {
+	return v.Order
+}
+
+// GetIsRadiant returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType.IsRadiant, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePickBansMatchStatsPickBanType) GetIsRadiant() bool {
+	return v.IsRadiant
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType includes the requested fields of the GraphQL type MatchPlayerType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType struct {
+	SteamAccountId      int                                                                                                `json:"steamAccountId"`
+	SteamAccount        getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountType `json:"steamAccount"`
+	IsRadiant           bool                                                                                               `json:"isRadiant"`
+	IsVictory           bool                                                                                               `json:"isVictory"`
+	HeroId              int                                                                                                `json:"heroId"`
+	Kills               byte                                                                                               `json:"kills"`
+	Deaths              byte                                                                                               `json:"deaths"`
+	Assists             byte                                                                                               `json:"assists"`
+	NumLastHits         int                                                                                                `json:"numLastHits"`
+	NumDenies           int                                                                                                `json:"numDenies"`
+	GoldPerMinute       int                                                                                                `json:"goldPerMinute"`
+	Networth            int                                                                                                `json:"networth"`
+	ExperiencePerMinute int                                                                                                `json:"experiencePerMinute"`
+	Level               byte                                                                                               `json:"level"`
+	GoldSpent           int                                                                                                `json:"goldSpent"`
+	HeroDamage          int                                                                                                `json:"heroDamage"`
+	TowerDamage         int                                                                                                `json:"towerDamage"`
+	HeroHealing         int                                                                                                `json:"heroHealing"`
+	IsRandom            bool                                                                                               `json:"isRandom"`
+	Lane                MatchLaneType                                                                                      `json:"lane"`
+	Position            MatchPlayerPositionType                                                                            `json:"position"`
+	Role                MatchPlayerRoleType                                                                                `json:"role"`
+	Item0Id             int                                                                                                `json:"item0Id"`
+	Item1Id             int                                                                                                `json:"item1Id"`
+	Item2Id             int                                                                                                `json:"item2Id"`
+	Item3Id             int                                                                                                `json:"item3Id"`
+	Item4Id             int                                                                                                `json:"item4Id"`
+	Item5Id             int                                                                                                `json:"item5Id"`
+	Backpack0Id         int                                                                                                `json:"backpack0Id"`
+	Backpack1Id         int                                                                                                `json:"backpack1Id"`
+	Backpack2Id         int                                                                                                `json:"backpack2Id"`
+	// The item id of the dedicated neutral item slot (7.24 and after). From game
+	// versions 7.23 to 7.24, this was the BackPack3Id (the 4th backpack slot item id).
+	Neutral0Id       int `json:"neutral0Id"`
+	InvisibleSeconds int `json:"invisibleSeconds"`
+	DotaPlusHeroXp   int `json:"dotaPlusHeroXp"`
+	// Gets the players of Dota which have DotaPlus and have a high level hero.
+	DotaPlus       getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType     `json:"dotaPlus"`
+	AdditionalUnit getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeAdditionalUnitMatchPlayerAdditionalUnitType `json:"additionalUnit"`
+}
+
+// GetSteamAccountId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.SteamAccountId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetSteamAccountId() int {
+	return v.SteamAccountId
+}
+
+// GetSteamAccount returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.SteamAccount, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetSteamAccount() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountType {
+	return v.SteamAccount
+}
+
+// GetIsRadiant returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.IsRadiant, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetIsRadiant() bool {
+	return v.IsRadiant
+}
+
+// GetIsVictory returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.IsVictory, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetIsVictory() bool {
+	return v.IsVictory
+}
+
+// GetHeroId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.HeroId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetHeroId() int {
+	return v.HeroId
+}
+
+// GetKills returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Kills, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetKills() byte {
+	return v.Kills
+}
+
+// GetDeaths returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Deaths, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetDeaths() byte {
+	return v.Deaths
+}
+
+// GetAssists returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Assists, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetAssists() byte {
+	return v.Assists
+}
+
+// GetNumLastHits returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.NumLastHits, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetNumLastHits() int {
+	return v.NumLastHits
+}
+
+// GetNumDenies returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.NumDenies, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetNumDenies() int {
+	return v.NumDenies
+}
+
+// GetGoldPerMinute returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.GoldPerMinute, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetGoldPerMinute() int {
+	return v.GoldPerMinute
+}
+
+// GetNetworth returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Networth, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetNetworth() int {
+	return v.Networth
+}
+
+// GetExperiencePerMinute returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.ExperiencePerMinute, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetExperiencePerMinute() int {
+	return v.ExperiencePerMinute
+}
+
+// GetLevel returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Level, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetLevel() byte {
+	return v.Level
+}
+
+// GetGoldSpent returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.GoldSpent, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetGoldSpent() int {
+	return v.GoldSpent
+}
+
+// GetHeroDamage returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.HeroDamage, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetHeroDamage() int {
+	return v.HeroDamage
+}
+
+// GetTowerDamage returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.TowerDamage, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetTowerDamage() int {
+	return v.TowerDamage
+}
+
+// GetHeroHealing returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.HeroHealing, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetHeroHealing() int {
+	return v.HeroHealing
+}
+
+// GetIsRandom returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.IsRandom, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetIsRandom() bool {
+	return v.IsRandom
+}
+
+// GetLane returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Lane, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetLane() MatchLaneType {
+	return v.Lane
+}
+
+// GetPosition returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Position, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetPosition() MatchPlayerPositionType {
+	return v.Position
+}
+
+// GetRole returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Role, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetRole() MatchPlayerRoleType {
+	return v.Role
+}
+
+// GetItem0Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Item0Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetItem0Id() int {
+	return v.Item0Id
+}
+
+// GetItem1Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Item1Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetItem1Id() int {
+	return v.Item1Id
+}
+
+// GetItem2Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Item2Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetItem2Id() int {
+	return v.Item2Id
+}
+
+// GetItem3Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Item3Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetItem3Id() int {
+	return v.Item3Id
+}
+
+// GetItem4Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Item4Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetItem4Id() int {
+	return v.Item4Id
+}
+
+// GetItem5Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Item5Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetItem5Id() int {
+	return v.Item5Id
+}
+
+// GetBackpack0Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Backpack0Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetBackpack0Id() int {
+	return v.Backpack0Id
+}
+
+// GetBackpack1Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Backpack1Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetBackpack1Id() int {
+	return v.Backpack1Id
+}
+
+// GetBackpack2Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Backpack2Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetBackpack2Id() int {
+	return v.Backpack2Id
+}
+
+// GetNeutral0Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.Neutral0Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetNeutral0Id() int {
+	return v.Neutral0Id
+}
+
+// GetInvisibleSeconds returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.InvisibleSeconds, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetInvisibleSeconds() int {
+	return v.InvisibleSeconds
+}
+
+// GetDotaPlusHeroXp returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.DotaPlusHeroXp, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetDotaPlusHeroXp() int {
+	return v.DotaPlusHeroXp
+}
+
+// GetDotaPlus returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.DotaPlus, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetDotaPlus() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType {
+	return v.DotaPlus
+}
+
+// GetAdditionalUnit returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType.AdditionalUnit, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerType) GetAdditionalUnit() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeAdditionalUnitMatchPlayerAdditionalUnitType {
+	return v.AdditionalUnit
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeAdditionalUnitMatchPlayerAdditionalUnitType includes the requested fields of the GraphQL type MatchPlayerAdditionalUnitType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeAdditionalUnitMatchPlayerAdditionalUnitType struct {
+	Item0Id int `json:"item0Id"`
+}
+
+// GetItem0Id returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeAdditionalUnitMatchPlayerAdditionalUnitType.Item0Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeAdditionalUnitMatchPlayerAdditionalUnitType) GetItem0Id() int {
+	return v.Item0Id
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType includes the requested fields of the GraphQL type HeroDotaPlusLeaderboardRankType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType struct {
+	Level        byte `json:"level"`
+	TotalActions int  `json:"totalActions"`
+}
+
+// GetLevel returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType.Level, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType) GetLevel() byte {
+	return v.Level
+}
+
+// GetTotalActions returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType.TotalActions, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeDotaPlusHeroDotaPlusLeaderboardRankType) GetTotalActions() int {
+	return v.TotalActions
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountType includes the requested fields of the GraphQL type SteamAccountType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountType struct {
+	ProSteamAccount getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType `json:"proSteamAccount"`
+}
+
+// GetProSteamAccount returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountType.ProSteamAccount, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountType) GetProSteamAccount() getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType {
+	return v.ProSteamAccount
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType includes the requested fields of the GraphQL type ProSteamAccountType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType struct {
+	Name     string `json:"name"`
+	RealName string `json:"realName"`
+}
+
+// GetName returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType.Name, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType) GetName() string {
+	return v.Name
+}
+
+// GetRealName returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType.RealName, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypePlayersMatchPlayerTypeSteamAccountSteamAccountTypeProSteamAccountProSteamAccountType) GetRealName() string {
+	return v.RealName
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType includes the requested fields of the GraphQL type TeamType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+	Tag  string `json:"tag"`
+}
+
+// GetId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType.Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType) GetId() int {
+	return v.Id
+}
+
+// GetName returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType.Name, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType) GetName() string {
+	return v.Name
+}
+
+// GetTag returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType.Tag, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeRadiantTeamTeamType) GetTag() string {
+	return v.Tag
+}
+
+// getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType includes the requested fields of the GraphQL type SeriesType.
+type getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType struct {
+	Id              int        `json:"id"`
+	Type            SeriesEnum `json:"type"`
+	TeamOneId       int        `json:"teamOneId"`
+	TeamTwoId       int        `json:"teamTwoId"`
+	TeamOneWinCount int        `json:"teamOneWinCount"`
+	TeamTwoWinCount int        `json:"teamTwoWinCount"`
+	WinningTeamId   int        `json:"winningTeamId"`
+}
+
+// GetId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.Id, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetId() int { return v.Id }
+
+// GetType returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.Type, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetType() SeriesEnum {
+	return v.Type
+}
+
+// GetTeamOneId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.TeamOneId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetTeamOneId() int {
+	return v.TeamOneId
+}
+
+// GetTeamTwoId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.TeamTwoId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetTeamTwoId() int {
+	return v.TeamTwoId
+}
+
+// GetTeamOneWinCount returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.TeamOneWinCount, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetTeamOneWinCount() int {
+	return v.TeamOneWinCount
+}
+
+// GetTeamTwoWinCount returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.TeamTwoWinCount, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetTeamTwoWinCount() int {
+	return v.TeamTwoWinCount
+}
+
+// GetWinningTeamId returns getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType.WinningTeamId, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesLeagueLeagueTypeMatchesMatchTypeSeriesSeriesType) GetWinningTeamId() int {
+	return v.WinningTeamId
+}
+
+// getLeagueMatchesResponse is returned by getLeagueMatches on success.
+type getLeagueMatchesResponse struct {
+	// Find league details by league Id. Id is a required field.
+	League getLeagueMatchesLeagueLeagueType `json:"league"`
+}
+
+// GetLeague returns getLeagueMatchesResponse.League, and is useful for accessing the field via an interface.
+func (v *getLeagueMatchesResponse) GetLeague() getLeagueMatchesLeagueLeagueType { return v.League }
+
 // The query executed by getHeros.
 const getHeros_Operation = `
 query getHeros {
@@ -151,6 +910,139 @@ func getItems(
 	}
 
 	data_ = &getItemsResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The query executed by getLeagueMatches.
+const getLeagueMatches_Operation = `
+query getLeagueMatches ($leagueId: Int!, $take: Int!, $skip: Int!) {
+	league(id: $leagueId) {
+		id
+		displayName
+		matches(request: {take:$take,skip:$skip}) {
+			id
+			didRadiantWin
+			durationSeconds
+			startDateTime
+			endDateTime
+			towerStatusRadiant
+			towerStatusDire
+			barracksStatusRadiant
+			barracksStatusDire
+			firstBloodTime
+			lobbyType
+			gameMode
+			radiantTeamId
+			radiantTeam {
+				id
+				name
+				tag
+			}
+			direTeamId
+			direTeam {
+				id
+				name
+				tag
+			}
+			seriesId
+			series {
+				id
+				type
+				teamOneId
+				teamTwoId
+				teamOneWinCount
+				teamTwoWinCount
+				winningTeamId
+			}
+			gameVersionId
+			radiantNetworthLeads
+			radiantExperienceLeads
+			pickBans {
+				isPick
+				heroId
+				order
+				isRadiant
+			}
+			analysisOutcome
+			players {
+				steamAccountId
+				steamAccount {
+					proSteamAccount {
+						name
+						realName
+					}
+				}
+				isRadiant
+				isVictory
+				heroId
+				kills
+				deaths
+				assists
+				numLastHits
+				numDenies
+				goldPerMinute
+				networth
+				experiencePerMinute
+				level
+				goldSpent
+				heroDamage
+				towerDamage
+				heroHealing
+				isRandom
+				lane
+				position
+				role
+				item0Id
+				item1Id
+				item2Id
+				item3Id
+				item4Id
+				item5Id
+				backpack0Id
+				backpack1Id
+				backpack2Id
+				neutral0Id
+				invisibleSeconds
+				dotaPlusHeroXp
+				dotaPlus {
+					level
+					totalActions
+				}
+				additionalUnit {
+					item0Id
+				}
+			}
+		}
+	}
+}
+`
+
+func getLeagueMatches(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	leagueId int,
+	take int,
+	skip int,
+) (data_ *getLeagueMatchesResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "getLeagueMatches",
+		Query:  getLeagueMatches_Operation,
+		Variables: &__getLeagueMatchesInput{
+			LeagueId: leagueId,
+			Take:     take,
+			Skip:     skip,
+		},
+	}
+
+	data_ = &getLeagueMatchesResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(

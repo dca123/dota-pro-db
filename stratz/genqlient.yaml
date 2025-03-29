@@ -9,3 +9,5 @@ bindings:
     type: int
   Long: 
     type: int
+  Byte:
+    type: byte
