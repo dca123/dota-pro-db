@@ -55,7 +55,6 @@ CREATE TABLE matches (
   FOREIGN KEY (dire_team_id) REFERENCES teams (id)
 );
 CREATE TABLE match_pick_bans (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
   is_pick INTEGER NOT NULL,
   pick_order INTEGER NOT NULL,
   is_radiant INTEGER NOT NULL,
@@ -63,11 +62,11 @@ CREATE TABLE match_pick_bans (
   match_id INTEGER NOT NULL,
   hero_id INTEGER NOT NULL,
 
+  PRIMARY KEY (match_id, hero_id),
   FOREIGN KEY (match_id) REFERENCES matches (id),
   FOREIGN KEY (hero_id) REFERENCES heroes (id)
 );
 CREATE TABLE match_players (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
   is_radiant INTEGER NOT NULL,
   is_victory INTEGER NOT NULL,
   kills INTEGER NOT NULL,
@@ -104,6 +103,7 @@ CREATE TABLE match_players (
   backpack_2_id INTEGER,
   neutral_0_id INTEGER,
 
+  PRIMARY KEY (match_id, steam_account_id),
   FOREIGN KEY (match_id) REFERENCES matches (id),
   FOREIGN KEY (steam_account_id) REFERENCES team_players (steam_account_id),
   FOREIGN KEY (hero_id) REFERENCES heroes (id),
