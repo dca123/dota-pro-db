@@ -25,6 +25,7 @@ CREATE TABLE series (
   FOREIGN KEY (team_two_id) REFERENCES teams (id)
 );
 
+
 CREATE TABLE matches (
   id INTEGER PRIMARY KEY,
   did_radiant_win INTEGER NOT NULL,
@@ -131,4 +132,3 @@ DROP TABLE IF EXISTS match_players;
 DROP TABLE IF EXISTS series;
 DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS team_players;
-PRAGMA foreign_keys = OFF;
