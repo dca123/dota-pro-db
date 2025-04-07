@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"dota-pro-db/database"
 	"dota-pro-db/stratz"
 	"fmt"
 	"log"
@@ -26,6 +27,9 @@ func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	return t.wrapped.RoundTrip(req)
 }
 func main() {
+	if API_KEY == "" {
+		log.Fatalln("STRATZ_API_KEY is not set")
+	}
 	ctx := context.Background()
 	client := graphql.NewClient(URL, &http.Client{
 		Transport: &authedTransport{
@@ -47,7 +51,7 @@ func main() {
 
 	items := itemsRes.Constants.Items
 
-	db, err := sql.Open("sqlite3", "../../test.db")
+	db := database.GetDb()
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"dota-pro-db/database"
 	"dota-pro-db/stratz"
 	"fmt"
 	"log"
@@ -11,10 +12,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattn/go-sqlite3"
-	_ "github.com/mattn/go-sqlite3"
-
 	"github.com/Khan/genqlient/graphql"
+	"github.com/mattn/go-sqlite3"
 )
 
 var API_KEY = os.Getenv("STRATZ_API_KEY")
@@ -31,6 +30,9 @@ func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 }
 func main() {
 	ctx := context.Background()
+	if API_KEY == "" {
+		log.Fatalln("STRATZ_API_KEY is not set")
+	}
 	client := graphql.NewClient(URL, &http.Client{
 		Transport: &authedTransport{
 			wrapped: http.DefaultTransport,
@@ -48,11 +50,7 @@ func main() {
 	}
 	log.Println("League: ", league.DisplayName, "No. of matches: ", len(league.Matches))
 
-	db, err := sql.Open("sqlite3", "../../test.db?_foreign_keys=true")
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	db := database.GetDb()
 	defer db.Close()
 
 	err = createLeague(db, &League{Id: &league.Id, DisplayName: &league.DisplayName})
