@@ -7,41 +7,21 @@ import (
 	"dota-pro-db/stratz"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 	"strings"
 
-	"github.com/Khan/genqlient/graphql"
 	"github.com/mattn/go-sqlite3"
 )
 
-var API_KEY = os.Getenv("STRATZ_API_KEY")
-var URL = "https://api.stratz.com/graphql"
-
-type authedTransport struct {
-	wrapped http.RoundTripper
-}
-
-func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Set("User-Agent", "STRATZ_API")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", API_KEY))
-	return t.wrapped.RoundTrip(req)
-}
 func main() {
 	ctx := context.Background()
-	if API_KEY == "" {
-		log.Fatalln("STRATZ_API_KEY is not set")
-	}
-	client := graphql.NewClient(URL, &http.Client{
-		Transport: &authedTransport{
-			wrapped: http.DefaultTransport,
-		},
-	})
 	matchId, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	client := stratz.GetClient()
 
 	fmt.Printf("Importing data for league: %d\n", matchId)
 	league, err := stratz.GetLeagueMatches(client, ctx, matchId)
