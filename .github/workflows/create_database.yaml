@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Get latest successful run ID
         id: get_run_id
         env:
@@ -26,7 +27,6 @@ jobs:
         run: |
           ls -la
           mv dota-pro-games.db "${{ github.workspace }}/dota-pro-games.db"
-      - uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
