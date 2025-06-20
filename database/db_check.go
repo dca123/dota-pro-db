@@ -9,7 +9,7 @@ import (
 
 func GetDb() *sql.DB {
 	migrations := &migrate.FileMigrationSource{Dir: "../../migrations"}
-	db, err := sql.Open("sqlite3", "../../test.db?foreign_keys=true")
+	db, err := sql.Open("sqlite3", "../../dota-pro-games.db?foreign_keys=true")
 	if err != nil {
 		log.Fatal(err)
 	}
