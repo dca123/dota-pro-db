@@ -22,10 +22,9 @@ jobs:
           run-id: ${{ steps.get_run_id.outputs.run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-      - name: Unzip
-        run: unzip -o "${{ github.workspace }}/database" dota-pro-games.db -d ${{ github.workspace }}
       - name: List files (for debug)
         run: ls -l
+        working-directory: database
       - uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v5
