@@ -1,8 +1,12 @@
 # Dota 2 Pro games database
 
+An up to date collection of professional tier dota 2 matches, extracted via the stratz api.
+
 ## Download sqlite file
 This file is updated each week. It includes all completed leagues from Feb 16, 2025 till the date the release was created with a prize pool >= $1,000,000.
-[Release](https://github.com/dca123/dota-pro-db/releases/tag/latest)
+
+
+[Download sqlite database](https://github.com/dca123/dota-pro-db/releases/tag/latest)
 
 ## Usage
 
