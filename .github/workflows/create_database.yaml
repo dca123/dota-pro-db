@@ -18,9 +18,6 @@ jobs:
           echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
       - uses: actions/download-artifact@v4
         with:
-          name: database
-          github-token: ${{ secrets.GH_PAT }}
-          repository: ${{ github.repository }}
           run-id: ${{ steps.get_run_id.outputs.run_id }}
       - name: List files (for debug)
         run: ls -l
