@@ -1,10 +1,15 @@
 name: Sync Database
-on: [push]
+on: [push,workflow_dispatch]
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: database
+      - name: List files (for debug)
+        run: ls -l
       - uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v5
