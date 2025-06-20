@@ -8,7 +8,7 @@ jobs:
       - name: Get latest successful run ID
         id: get_run_id
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           WORKFLOW_ID="169687509"
           RUN_ID=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
