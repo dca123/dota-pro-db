@@ -42,5 +42,14 @@ jobs:
         with:
           name: database
           path:  ${{ github.workspace }}/dota-pro-games.db
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        name: Create Release
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          title: "Database"
+          files: ./dota-pro-games.db
+          prerelease: false
+
 
 
