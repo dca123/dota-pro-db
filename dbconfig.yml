@@ -1,4 +1,4 @@
 development:
   dialect: sqlite3
-  datasource: test.db
+  datasource: dota-pro-games.db
   dir: migrations

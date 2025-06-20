@@ -5,6 +5,9 @@ query getHeros {
       name
       displayName
       shortName
+      stats {
+        primaryAttributeEnum
+      }
     }
   }
 }
@@ -17,6 +20,42 @@ query getItems {
       displayName
       shortName
       image
+    }
+  }
+}
+
+query getGameVersions {
+  constants {
+    gameVersions {
+      id
+      name
+      asOfDateTime
+    }
+  }
+}
+
+query getLeagues(
+  $take: Int
+  $skip: Int
+  $startDateTime: Long
+  $endDateTime: Long
+) {
+  leagues(
+    request: {
+      startDateTime: $startDateTime
+      endDateTime: $endDateTime
+      requirePrizePool: true
+      tiers: [PROFESSIONAL, INTERNATIONAL]
+      take: $take
+      skip: $skip
+      orderBy: LAST_MATCH_TIME
+    }
+  ) {
+    id
+    prizePool
+    endDateTime
+    matches(request: { take: 10, skip: 0 }) {
+      id
     }
   }
 }

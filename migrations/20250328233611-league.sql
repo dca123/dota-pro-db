@@ -49,8 +49,8 @@ CREATE TABLE matches (
   radiant_team_id INTEGER NOT NULL,
   dire_team_id INTEGER NOT NULL,
 
-  FOREIGN KEY (league_id) REFERENCES leagues (id),
-  FOREIGN KEY (series_id) REFERENCES series (id),
+  FOREIGN KEY (league_id) REFERENCES leagues (id) ON DELETE CASCADE,
+  FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE,
   FOREIGN KEY (radiant_team_id) REFERENCES teams (id),
   FOREIGN KEY (dire_team_id) REFERENCES teams (id)
 );
@@ -63,7 +63,7 @@ CREATE TABLE match_pick_bans (
   hero_id INTEGER NOT NULL,
 
   PRIMARY KEY (match_id, hero_id),
-  FOREIGN KEY (match_id) REFERENCES matches (id),
+  FOREIGN KEY (match_id) REFERENCES matches (id) ON DELETE CASCADE,
   FOREIGN KEY (hero_id) REFERENCES heroes (id)
 );
 CREATE TABLE match_players (
@@ -104,7 +104,7 @@ CREATE TABLE match_players (
   neutral_0_id INTEGER,
 
   PRIMARY KEY (match_id, steam_account_id),
-  FOREIGN KEY (match_id) REFERENCES matches (id),
+  FOREIGN KEY (match_id) REFERENCES matches (id) ON DELETE CASCADE,
   FOREIGN KEY (steam_account_id) REFERENCES team_players (steam_account_id),
   FOREIGN KEY (hero_id) REFERENCES heroes (id),
   FOREIGN KEY (item_0_id) REFERENCES items (id),

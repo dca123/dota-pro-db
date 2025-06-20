@@ -1,2 +1,4 @@
 .env.*
 .env
+dota-pro-games.db
+*.db
