@@ -23,10 +23,6 @@ jobs:
           run-id: ${{ steps.get_run_id.outputs.run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-      - name: List files (for debug)
-        run: |
-          ls -la
-          mv dota-pro-games.db "${{ github.workspace }}/dota-pro-games.db"
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
