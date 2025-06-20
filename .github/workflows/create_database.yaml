@@ -5,9 +5,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get latest successful run ID
+        id: get_run_id
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          # Replace with your workflow file name or ID
+          WORKFLOW_ID="create_database.yml"
+          RUN_ID=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$WORKFLOW_ID/runs?status=success&branch=main&per_page=1" \
+            | jq '.workflow_runs[0].id')
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
       - uses: actions/download-artifact@v4
         with:
           name: database
+          github-token: ${{ secrets.GH_PAT }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.get_run_id.outputs.run_id }}
       - name: List files (for debug)
         run: ls -l
       - uses: actions/checkout@v4
