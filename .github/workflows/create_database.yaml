@@ -22,7 +22,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
       - name: Unzip
-        run: unzip -o ${{ github.workspace }}database dota-pro-games.db -d ${{ github.workspace }}
+        run: unzip -o "${{ github.workspace }}/database" dota-pro-games.db -d ${{ github.workspace }}
       - name: List files (for debug)
         run: ls -l
       - uses: actions/checkout@v4
