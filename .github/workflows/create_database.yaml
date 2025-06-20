@@ -10,8 +10,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          # Replace with your workflow file name or ID
-          WORKFLOW_ID="create_database.yml"
+          WORKFLOW_ID="169687509"
           RUN_ID=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$WORKFLOW_ID/runs?status=success&branch=main&per_page=1" \
             | jq '.workflow_runs[0].id')
