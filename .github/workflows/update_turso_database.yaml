@@ -23,3 +23,4 @@ jobs:
         env:
           TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+          STRATZ_API_KEY: ${{ secrets.STRATZ_API_KEY }}
