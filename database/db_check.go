@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/rubenv/sql-migrate"
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )

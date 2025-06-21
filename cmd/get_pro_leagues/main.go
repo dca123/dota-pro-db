@@ -8,8 +8,6 @@ import (
 	"dota-pro-db/stratz"
 	"fmt"
 	"log"
-
-	_ "github.com/mattn/go-sqlite3"
 )
 
 type League = struct {

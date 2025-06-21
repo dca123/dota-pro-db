@@ -4,11 +4,10 @@ import (
 	"database/sql"
 	"dota-pro-db/stratz"
 	"fmt"
-	"log"
 	"log/slog"
 	"strings"
 
-	"github.com/mattn/go-sqlite3"
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
 type IngestionError struct {
@@ -22,11 +21,7 @@ func (e *IngestionError) Error() string {
 func CreateLeague(db *sql.DB, league *stratz.League) error {
 	err := createLeague(db, league)
 	if err != nil {
-		if isDuplicateError(err) {
-			log.Println("Existing league, syncing matches")
-		} else {
-			return err
-		}
+		return err
 	}
 
 	for _, match := range league.Matches {
@@ -35,17 +30,13 @@ func CreateLeague(db *sql.DB, league *stratz.League) error {
 		// create radiant team
 		err := createTeam(db, &Team{Id: &match.RadiantTeam.Id, Name: &match.RadiantTeam.Name, Tag: &match.RadiantTeam.Tag})
 		if err != nil {
-			if !isDuplicateError(err) {
-				return err
-			}
+			return err
 		}
 
 		//create dire team
 		err = createTeam(db, &Team{Id: &match.DireTeam.Id, Name: &match.DireTeam.Name, Tag: &match.DireTeam.Tag})
 		if err != nil {
-			if !isDuplicateError(err) {
-				return err
-			}
+			return err
 		}
 
 		err = createSeries(db, &Series{
@@ -58,13 +49,7 @@ func CreateLeague(db *sql.DB, league *stratz.League) error {
 			TeamTwoWinCount: &match.Series.TeamTwoWinCount,
 		})
 		if err != nil {
-			if !isDuplicateError(err) {
-				return &IngestionError{
-					Message: fmt.Sprintf("Error creating series: %s", err),
-				}
-			} else {
-				slog.Debug("Duplicate series avoided")
-			}
+			return err
 		}
 
 		err = createMatch(db, &Match{
@@ -91,13 +76,8 @@ func CreateLeague(db *sql.DB, league *stratz.League) error {
 		})
 
 		if err != nil {
-			if !isDuplicateError(err) {
-				return &IngestionError{
-					Message: fmt.Sprintf("Error creating match: %s", err),
-				}
-			} else {
-				slog.Debug("Duplicate match avoided")
-			}
+			return err
+
 		}
 
 		var heroSelections = make([]HeroSelection, len(match.PickBans))
@@ -113,13 +93,7 @@ func CreateLeague(db *sql.DB, league *stratz.League) error {
 
 		err = createMatchPickBans(db, &heroSelections)
 		if err != nil {
-			if !isDuplicateError(err) {
-				return &IngestionError{
-					Message: fmt.Sprintf("Error creating pick bans: %s", err),
-				}
-			} else {
-				slog.Debug("Duplicate team player avoided")
-			}
+			return err
 		}
 
 		var matchPlayers = make([]MatchPlayer, len(match.Players))
@@ -131,13 +105,7 @@ func CreateLeague(db *sql.DB, league *stratz.League) error {
 			}
 			err = createTeamPlayer(db, &teamPlayer)
 			if err != nil {
-				if !isDuplicateError(err) {
-					return &IngestionError{
-						Message: fmt.Sprintf("Error creating team player: %s", err),
-					}
-				} else {
-					slog.Debug("Duplicate team player avoided")
-				}
+				return err
 			}
 
 			matchPlayers[i] = MatchPlayer{
@@ -180,27 +148,11 @@ func CreateLeague(db *sql.DB, league *stratz.League) error {
 
 		err = createMatchPlayers(db, &matchPlayers)
 		if err != nil {
-			if !isDuplicateError(err) {
-				return &IngestionError{
-					Message: fmt.Sprintf("Error creating match players: %s", err),
-				}
-			} else {
-				slog.Debug("Duplicate match players avoided")
-			}
+			return err
 		}
 
 	}
 	return nil
-}
-
-func isDuplicateError(err error) bool {
-	if err, ok := err.(sqlite3.Error); ok {
-		if err.ExtendedCode == sqlite3.ErrConstraintPrimaryKey {
-			return true
-		}
-		return false
-	}
-	return false
 }
 
 type League = struct {
@@ -226,7 +178,7 @@ type Team = struct {
 }
 
 func createTeam(db *sql.DB, team *Team) error {
-	stmt, err := db.Prepare("INSERT INTO teams(id, name, tag) VALUES (?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO teams(id, name, tag) VALUES (?, ?, ?) ON CONFLICT(id) DO NOTHING")
 
 	if err != nil {
 		return err
@@ -249,7 +201,7 @@ type Series = struct {
 }
 
 func createSeries(db *sql.DB, series *Series) error {
-	stmt, err := db.Prepare("INSERT INTO series(id, type, team_one_win_count, team_two_win_count, winning_team_id, team_one_id, team_two_id) VALUES (?, ?, ?, ?, NULLIF(?, 0), ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO series(id, type, team_one_win_count, team_two_win_count, winning_team_id, team_one_id, team_two_id) VALUES (?, ?, ?, ?, NULLIF(?, 0), ?, ?) ON CONFLICT(id) DO NOTHING")
 
 	if err != nil {
 		return err
@@ -365,7 +317,7 @@ type TeamPlayer = struct {
 }
 
 func createTeamPlayer(db *sql.DB, teamPlayer *TeamPlayer) error {
-	stmt, err := db.Prepare("INSERT INTO team_players(steam_account_id, name) VALUES(?,COALESCE(?, ''))")
+	stmt, err := db.Prepare("INSERT INTO team_players(steam_account_id, name) VALUES(?,COALESCE(?, '')) ON CONFLICT (steam_account_id) DO NOTHING")
 	if err != nil {
 		return err
 	}
