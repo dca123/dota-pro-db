@@ -1,0 +1,24 @@
+name: Sync Sqlite Database
+on: 
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.7'
+      - name: Install dependencies
+        run: go mod download
+      - name: Run program
+        run: go run main.go --turso
+        working-directory: cmd/get_pro_leagues
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
