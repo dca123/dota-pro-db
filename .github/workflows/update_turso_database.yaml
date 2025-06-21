@@ -1,4 +1,4 @@
-name: Sync Sqlite Database
+name: Sync Turso Database
 on: 
   schedule:
     - cron: "0 0 * * 0"
