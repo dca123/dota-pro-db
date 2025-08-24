@@ -12,8 +12,9 @@ import (
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
+var useTurso = flag.Bool("turso", false, "Uses remote turso db")
+
 func GetDb() *sql.DB {
-	useTurso := flag.Bool("turso", false, "Uses remote turso db")
 	flag.Parse()
 	if *useTurso == true {
 		return getTursoDb()

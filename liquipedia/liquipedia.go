@@ -1,6 +1,8 @@
 package liquipedia
 
 import (
+	"database/sql"
+	"dota-pro-db/database"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -9,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -20,7 +23,12 @@ type League struct {
 	Name string
 }
 
-// GetLeagueIds fetches all leagues and their corresponding STRATZ IDs
+const rateLimit = time.Second * 30
+
+var rateLimiter = time.NewTicker(rateLimit)
+
+var client = &http.Client{Timeout: rateLimit}
+
 func GetLeagueIds() ([]League, error) {
 	leagues, err := getLeagues()
 	if err != nil {
@@ -28,19 +36,65 @@ func GetLeagueIds() ([]League, error) {
 	}
 
 	var results []League
-	for _, league := range leagues {
-		id, err := extractStratzID(league.Name)
-		if err != nil {
-			log.Printf("Warning: failed to get STRATZ ID for %s: %v", league.Name, err)
-			continue
+	var mu sync.Mutex
+	var wg sync.WaitGroup
+
+	rateLimitChan := make(chan struct{}, 1)
+	go func() {
+		for range rateLimiter.C {
+			select {
+			case rateLimitChan <- struct{}{}:
+			default:
+			}
 		}
-		results = append(results, League{
-			ID:   id,
-			Name: league.Name,
-		})
+	}()
+
+	for _, league := range leagues {
+		wg.Add(1)
+		go func(l leagueInfo) {
+			defer wg.Done()
+			hasLeague, err := doesDBHaveLeague(l.Name)
+			if err != nil {
+				log.Printf("Warning: failed to check DB for %s: %v", l.Name, err)
+				return
+			}
+			if hasLeague {
+				log.Printf("League %s already exists in DB, skipping", l.Name)
+				return
+			}
+			<-rateLimitChan
+			id, err := extractStratzID(league.Name)
+			if err != nil {
+				log.Printf("Warning: failed to get STRATZ ID for %s: %v", league.Name, err)
+				return
+			}
+			mu.Lock()
+			results = append(results, League{
+				ID:   id,
+				Name: league.Name,
+			})
+			mu.Unlock()
+		}(league)
 	}
+	wg.Wait()
 
 	return results, nil
+}
+
+func doesDBHaveLeague(leagueName string) (bool, error) {
+	db := database.GetDb()
+	var scannedLeague int
+	err := db.QueryRow("SELECT id FROM leagues where liquipedia_page_name = ?", leagueName).Scan(&scannedLeague)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false, nil
+		}
+		return false, err
+	}
+	if scannedLeague != 0 {
+		return true, nil
+	}
+	return false, nil
 }
 
 // leagueInfo holds temporary league data
@@ -49,103 +103,93 @@ type leagueInfo struct {
 	URL  string
 }
 
-// getLeagues fetches all leagues using cached tier1.txt in dev mode
 func getLeagues() ([]leagueInfo, error) {
-	// Try to use cached file first (dev mode)
-	file, err := os.Open("liquipedia/tier1.txt")
-	if err == nil {
-		defer file.Close()
-		return parseLeaguesFromFile(file)
+	response, err := getLeaguesFromAPI()
+	if err != nil {
+		return nil, err
+	}
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(response))
+	if err != nil {
+		return nil, err
 	}
 
-	// Fallback to live API call
-	return getLeaguesFromAPI()
+	var leagues []leagueInfo
+	doc.Find("div.gridRow").Each(func(i int, row *goquery.Selection) {
+		dateCell := row.Find("div.gridCell.Date.Header")
+		dateParts := strings.Split(dateCell.Text(), ",")
+		year, err := strconv.Atoi(strings.TrimSpace(dateParts[len(dateParts)-1]))
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		winnerCell := row.Find("div.gridCell.Placement.FirstPlace")
+		hasWinner := strings.TrimSpace(winnerCell.Text()) != "TBD"
+
+		if year >= 2025 && hasWinner {
+			cell := row.Find("div.gridCell.Tournament.Header")
+			link := cell.Find("a").Last()
+			name := strings.TrimSpace(link.Text())
+			href, exists := link.Attr("href")
+			if exists && name != "" {
+				leagues = append(leagues, leagueInfo{
+					Name: strings.TrimPrefix(href, "/dota2/"),
+					URL:  "https://liquipedia.net" + href,
+				})
+			}
+
+		}
+
+	})
+	return leagues, nil
 }
 
-// parseLeaguesFromFile parses leagues from cached JSON file
-func parseLeaguesFromFile(file *os.File) ([]leagueInfo, error) {
+func getLeaguesFromFile() (string, error) {
 	var result struct {
 		Parse struct {
 			Text map[string]string `json:"text"`
 		} `json:"parse"`
+	}
+	file, err := os.Open("liquipedia/tier1.txt")
+	if err != nil {
+		return "", err
 	}
 
 	if err := json.NewDecoder(file).Decode(&result); err != nil {
-		return nil, fmt.Errorf("failed to parse cached file: %w", err)
+		return "", fmt.Errorf("failed to parse cached file: %w", err)
 	}
-
-	doc, err := goquery.NewDocumentFromReader(strings.NewReader(result.Parse.Text["*"]))
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse HTML: %w", err)
-	}
-
-	var leagues []leagueInfo
-	doc.Find("div.gridRow").Each(func(i int, row *goquery.Selection) {
-		cell := row.Find("div.gridCell.Tournament.Header")
-		link := cell.Find("a")
-		name := strings.TrimSpace(link.Text())
-		href, exists := link.Attr("href")
-		if exists && name != "" {
-			leagues = append(leagues, leagueInfo{
-				Name: name,
-				URL:  "https://liquipedia.net" + href,
-			})
-		}
-	})
-
-	return leagues, nil
+	return result.Parse.Text["*"], nil
 }
 
-// getLeaguesFromAPI fetches leagues from live API
-func getLeaguesFromAPI() ([]leagueInfo, error) {
-	endpoint := "https://liquipedia.net/dota2/api.php?action=parse&prop=text&page=Tier_1_Tournaments&format=json"
-
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", endpoint, nil)
+func getLeaguesFromAPI() (string, error) {
+	result, err := getLeaguesFromFile()
 	if err != nil {
-		return nil, err
-	}
-	req.Header.Add("User-Agent", "MyBot/1.0 (my@email.com)")
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	var result struct {
-		Parse struct {
-			Text map[string]string `json:"text"`
-		} `json:"parse"`
-	}
-
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, err
-	}
-
-	doc, err := goquery.NewDocumentFromReader(strings.NewReader(result.Parse.Text["*"]))
-	if err != nil {
-		return nil, err
-	}
-
-	var leagues []leagueInfo
-	doc.Find("div.gridRow").Each(func(i int, row *goquery.Selection) {
-		cell := row.Find("div.gridCell.Tournament.Header")
-		link := cell.Find("a")
-		name := strings.TrimSpace(link.Text())
-		href, exists := link.Attr("href")
-		if exists && name != "" {
-			leagues = append(leagues, leagueInfo{
-				Name: name,
-				URL:  "https://liquipedia.net" + href,
-			})
+		endpoint := "https://liquipedia.net/dota2/api.php?action=parse&prop=text&page=Tier_1_Tournaments&format=json"
+		req, err := http.NewRequest("GET", endpoint, nil)
+		if err != nil {
+			return "", err
 		}
-	})
+		req.Header.Add("User-Agent", "MyBot/1.0 (my@email.com)")
 
-	return leagues, nil
+		resp, err := client.Do(req)
+		if err != nil {
+			return "", err
+		}
+		defer resp.Body.Close()
+
+		var result struct {
+			Parse struct {
+				Text map[string]string `json:"text"`
+			} `json:"parse"`
+		}
+
+		if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+			return "", err
+		}
+		return result.Parse.Text["*"], nil
+	}
+	return result, nil
 }
 
-// extractStratzID extracts the STRATZ league ID from a Liquipedia tournament page
 func extractStratzID(leagueName string) (int, error) {
 	endpoint := "https://liquipedia.net/dota2/api.php"
 
@@ -193,8 +237,6 @@ func extractStratzID(leagueName string) (int, error) {
 	return 0, fmt.Errorf("no STRATZ ID found for league: %s", leagueName)
 }
 
-const rateLimit = time.Second * 30
-
 type Client interface {
 	Call(*Payload)
 }
@@ -209,3 +251,6 @@ func RateLimitCall(client Client, payloads []*Payload) {
 		go client.Call(payload)
 	}
 }
+
+//rate limit calls to api. Filter after 2025.
+//Check if exists in DB before requesting for stratz api.
