@@ -18,14 +18,14 @@ func (e *IngestionError) Error() string {
 	return fmt.Sprintf("Ingestion error: %s", e.Message)
 }
 
-func CreateLeague(db *sql.DB, league *stratz.League) error {
-	err := createLeague(db, league)
+func CreateLeague(db *sql.DB, league *stratz.League, liquipediaPageName string) error {
+	err := createLeague(db, league, liquipediaPageName)
 	if err != nil {
 		return err
 	}
 
 	for _, match := range league.Matches {
-		slog.Info(fmt.Sprintf("Processing match %d\n", match.Id))
+		slog.Info(fmt.Sprintf("🔄 Processing match %d\n", match.Id))
 
 		// create radiant team
 		err := createTeam(db, &Team{Id: &match.RadiantTeam.Id, Name: &match.RadiantTeam.Name, Tag: &match.RadiantTeam.Tag})
@@ -160,14 +160,14 @@ type League = struct {
 	DisplayName *string
 }
 
-func createLeague(db *sql.DB, league *stratz.League) error {
-	stmt, err := db.Prepare("INSERT INTO leagues(id, name) VALUES (?, ?)")
+func createLeague(db *sql.DB, league *stratz.League, liquipediaPageName string) error {
+	stmt, err := db.Prepare("INSERT INTO leagues(id, name, liquipedia_page_name) VALUES (?, ?, ?)")
 	if err != nil {
 		return err
 	}
 
 	defer stmt.Close()
-	_, err = stmt.Exec(league.Id, league.DisplayName)
+	_, err = stmt.Exec(league.Id, league.DisplayName, liquipediaPageName)
 	return err
 }
 

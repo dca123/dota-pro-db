@@ -59,10 +59,12 @@ func GetLeagueIds() ([]League, error) {
 				return
 			}
 			if hasLeague {
-				log.Printf("League %s already exists in DB, skipping", l.Name)
+				log.Printf("⏭️ League %s already exists in DB, skipping", l.Name)
 				return
 			}
+			log.Printf("⏳ Waiting on %s", league.Name)
 			<-rateLimitChan
+			log.Printf("⚙️ Processing on %s", league.Name)
 			id, err := extractStratzID(league.Name)
 			if err != nil {
 				log.Printf("Warning: failed to get STRATZ ID for %s: %v", league.Name, err)
@@ -236,21 +238,3 @@ func extractStratzID(leagueName string) (int, error) {
 
 	return 0, fmt.Errorf("no STRATZ ID found for league: %s", leagueName)
 }
-
-type Client interface {
-	Call(*Payload)
-}
-
-type Payload struct {
-}
-
-func RateLimitCall(client Client, payloads []*Payload) {
-	throttle := time.Tick(rateLimit)
-	for _, payload := range payloads {
-		<-throttle
-		go client.Call(payload)
-	}
-}
-
-//rate limit calls to api. Filter after 2025.
-//Check if exists in DB before requesting for stratz api.

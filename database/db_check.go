@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rubenv/sql-migrate"
@@ -13,13 +14,19 @@ import (
 )
 
 var useTurso = flag.Bool("turso", false, "Uses remote turso db")
+var once sync.Once
+var instance *sql.DB
 
 func GetDb() *sql.DB {
-	flag.Parse()
-	if *useTurso == true {
-		return getTursoDb()
-	}
-	return getSqliteDb()
+	once.Do(func() {
+		flag.Parse()
+		if *useTurso == true {
+			instance = getTursoDb()
+		} else {
+			instance = getSqliteDb()
+		}
+	})
+	return instance
 }
 
 func getSqliteDb() *sql.DB {
@@ -32,7 +39,7 @@ func getSqliteDb() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Applied %d migrations!\n", n)
+	log.Printf("✅ Applied %d migrations!\n", n)
 	return db
 }
 
@@ -54,7 +61,7 @@ func getTursoDb() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Applied %d migrations!\n", n)
+	log.Printf("✅ Applied %d migrations!\n", n)
 	if err != nil {
 		log.Fatalf("Failed to open turso db %s: %s \n", url, err)
 	}
