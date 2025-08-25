@@ -16,8 +16,12 @@ import (
 func main() {
 	ctx := context.Background()
 	matchId, err := strconv.Atoi(os.Args[1])
+	liquipediaName := os.Args[2]
 	if err != nil {
 		log.Fatal(err)
+	}
+	if liquipediaName == "" {
+		log.Fatal("Liquipedia name cannot be empty")
 	}
 
 	client := stratz.GetClient()
@@ -31,7 +35,7 @@ func main() {
 
 	db := database.GetDb()
 	defer db.Close()
-	err = create_league.CreateLeague(db, &league)
+	err = create_league.CreateLeague(db, &league, liquipediaName)
 	if err != nil {
 		log.Fatal(err)
 	}
