@@ -224,26 +224,6 @@ func (v *__getLeagueMatchesInput) GetTake() int { return v.Take }
 // GetSkip returns __getLeagueMatchesInput.Skip, and is useful for accessing the field via an interface.
 func (v *__getLeagueMatchesInput) GetSkip() int { return v.Skip }
 
-// __getLeaguesInput is used internally by genqlient
-type __getLeaguesInput struct {
-	Take          int `json:"take"`
-	Skip          int `json:"skip"`
-	StartDateTime int `json:"startDateTime"`
-	EndDateTime   int `json:"endDateTime"`
-}
-
-// GetTake returns __getLeaguesInput.Take, and is useful for accessing the field via an interface.
-func (v *__getLeaguesInput) GetTake() int { return v.Take }
-
-// GetSkip returns __getLeaguesInput.Skip, and is useful for accessing the field via an interface.
-func (v *__getLeaguesInput) GetSkip() int { return v.Skip }
-
-// GetStartDateTime returns __getLeaguesInput.StartDateTime, and is useful for accessing the field via an interface.
-func (v *__getLeaguesInput) GetStartDateTime() int { return v.StartDateTime }
-
-// GetEndDateTime returns __getLeaguesInput.EndDateTime, and is useful for accessing the field via an interface.
-func (v *__getLeaguesInput) GetEndDateTime() int { return v.EndDateTime }
-
 // getGameVersionsConstantsConstantQuery includes the requested fields of the GraphQL type ConstantQuery.
 type getGameVersionsConstantsConstantQuery struct {
 	// Find game version details.
@@ -944,49 +924,6 @@ type getLeagueMatchesResponse struct {
 // GetLeague returns getLeagueMatchesResponse.League, and is useful for accessing the field via an interface.
 func (v *getLeagueMatchesResponse) GetLeague() getLeagueMatchesLeagueLeagueType { return v.League }
 
-// getLeaguesLeaguesLeagueType includes the requested fields of the GraphQL type LeagueType.
-type getLeaguesLeaguesLeagueType struct {
-	Id          int                                           `json:"id"`
-	DisplayName string                                        `json:"displayName"`
-	PrizePool   int                                           `json:"prizePool"`
-	EndDateTime int                                           `json:"endDateTime"`
-	Matches     []getLeaguesLeaguesLeagueTypeMatchesMatchType `json:"matches"`
-}
-
-// GetId returns getLeaguesLeaguesLeagueType.Id, and is useful for accessing the field via an interface.
-func (v *getLeaguesLeaguesLeagueType) GetId() int { return v.Id }
-
-// GetDisplayName returns getLeaguesLeaguesLeagueType.DisplayName, and is useful for accessing the field via an interface.
-func (v *getLeaguesLeaguesLeagueType) GetDisplayName() string { return v.DisplayName }
-
-// GetPrizePool returns getLeaguesLeaguesLeagueType.PrizePool, and is useful for accessing the field via an interface.
-func (v *getLeaguesLeaguesLeagueType) GetPrizePool() int { return v.PrizePool }
-
-// GetEndDateTime returns getLeaguesLeaguesLeagueType.EndDateTime, and is useful for accessing the field via an interface.
-func (v *getLeaguesLeaguesLeagueType) GetEndDateTime() int { return v.EndDateTime }
-
-// GetMatches returns getLeaguesLeaguesLeagueType.Matches, and is useful for accessing the field via an interface.
-func (v *getLeaguesLeaguesLeagueType) GetMatches() []getLeaguesLeaguesLeagueTypeMatchesMatchType {
-	return v.Matches
-}
-
-// getLeaguesLeaguesLeagueTypeMatchesMatchType includes the requested fields of the GraphQL type MatchType.
-type getLeaguesLeaguesLeagueTypeMatchesMatchType struct {
-	Id int `json:"id"`
-}
-
-// GetId returns getLeaguesLeaguesLeagueTypeMatchesMatchType.Id, and is useful for accessing the field via an interface.
-func (v *getLeaguesLeaguesLeagueTypeMatchesMatchType) GetId() int { return v.Id }
-
-// getLeaguesResponse is returned by getLeagues on success.
-type getLeaguesResponse struct {
-	// Find league details by searching for leagues using a LeagueRequest.
-	Leagues []getLeaguesLeaguesLeagueType `json:"leagues"`
-}
-
-// GetLeagues returns getLeaguesResponse.Leagues, and is useful for accessing the field via an interface.
-func (v *getLeaguesResponse) GetLeagues() []getLeaguesLeaguesLeagueType { return v.Leagues }
-
 // The query executed by getGameVersions.
 const getGameVersions_Operation = `
 query getGameVersions {
@@ -1217,52 +1154,6 @@ func getLeagueMatches(
 	}
 
 	data_ = &getLeagueMatchesResponse{}
-	resp_ := &graphql.Response{Data: data_}
-
-	err_ = client_.MakeRequest(
-		ctx_,
-		req_,
-		resp_,
-	)
-
-	return data_, err_
-}
-
-// The query executed by getLeagues.
-const getLeagues_Operation = `
-query getLeagues ($take: Int, $skip: Int, $startDateTime: Long, $endDateTime: Long) {
-	leagues(request: {startDateTime:$startDateTime,endDateTime:$endDateTime,requirePrizePool:true,tiers:[PROFESSIONAL,INTERNATIONAL],take:$take,skip:$skip,orderBy:LAST_MATCH_TIME}) {
-		id
-		displayName
-		prizePool
-		endDateTime
-		matches(request: {take:10,skip:0}) {
-			id
-		}
-	}
-}
-`
-
-func getLeagues(
-	ctx_ context.Context,
-	client_ graphql.Client,
-	take int,
-	skip int,
-	startDateTime int,
-	endDateTime int,
-) (data_ *getLeaguesResponse, err_ error) {
-	req_ := &graphql.Request{
-		OpName: "getLeagues",
-		Query:  getLeagues_Operation,
-		Variables: &__getLeaguesInput{
-			Take:          take,
-			Skip:          skip,
-			StartDateTime: startDateTime,
-			EndDateTime:   endDateTime,
-		},
-	}
-
-	data_ = &getLeaguesResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(

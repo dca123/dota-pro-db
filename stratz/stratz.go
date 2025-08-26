@@ -22,35 +22,6 @@ func GetItems(client graphql.Client, ctx context.Context) (*getItemsResponse, er
 	return getItems(ctx, client)
 }
 
-func GetLeagues(client graphql.Client, ctx context.Context, startDateTime int, minPrizePool int) ([]getLeaguesLeaguesLeagueType, error) {
-	now := time.Now()
-	epoc := now.Unix()
-	const TAKE = 100
-	resp, err := getLeagues(ctx, client, TAKE, 0, startDateTime, int(epoc))
-	if err != nil {
-		return []getLeaguesLeaguesLeagueType{}, err
-	}
-	var leagues []getLeaguesLeaguesLeagueType
-	idx := 1
-	for len(resp.Leagues) > 0 {
-		for _, league := range resp.Leagues {
-			if league.PrizePool >= minPrizePool && len(league.Matches) > 9 {
-				leagues = append(leagues, league)
-
-			}
-
-		}
-		resp, err = getLeagues(ctx, client, TAKE, idx*TAKE, startDateTime, int(epoc))
-		if err != nil {
-			return []getLeaguesLeaguesLeagueType{}, err
-		}
-		idx += 1
-	}
-
-	return leagues, nil
-
-}
-
 func GetLeagueMatches(client graphql.Client, ctx context.Context, leagueId int) (getLeagueMatchesLeagueLeagueType, error) {
 	const TAKE = 100
 	resp, err := getLeagueMatches(ctx, client, leagueId, TAKE, 0)

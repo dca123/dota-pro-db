@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.23.7
 
 require (
-	github.com/Khan/genqlient v0.8.0
+	github.com/Khan/genqlient v0.8.1
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/rubenv/sql-migrate v1.7.1
 )
@@ -13,8 +13,8 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.10.3 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
-	github.com/alexflint/go-arg v1.4.2 // indirect
-	github.com/alexflint/go-scalar v1.0.0 // indirect
+	github.com/alexflint/go-arg v1.5.1 // indirect
+	github.com/alexflint/go-scalar v1.2.0 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
