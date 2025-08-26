@@ -60,8 +60,6 @@ func GetLeagueMatches(client graphql.Client, ctx context.Context, leagueId int) 
 
 	var matches []getLeagueMatchesLeagueLeagueTypeMatchesMatchType
 
-	fmt.Println(len(resp.League.DisplayName))
-
 	idx := 1
 	for len(resp.League.Matches) > 0 {
 		slog.Debug(fmt.Sprintf("Response with %d matches", len(resp.League.Matches)))
