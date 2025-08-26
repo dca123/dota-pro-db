@@ -4,7 +4,7 @@ A comprehensive, up-to-date database of professional Dota 2 matches, extracted f
 
 ## Features
 
-- **Automated Data Ingestion:** Fetches and imports all major professional leagues (with prize pool filtering) and their matches.
+- **Automated Data Ingestion:** Fetches and imports all major professional leagues using Liquipedia to identify T1 tournaments and their matches.
 - **Rich Schema:** Stores detailed data on leagues, teams, series, matches, players, heroes, items, and more.
 - **Up-to-date Constants:** Keeps hero, item, and game version data current.
 - **Flexible Storage:** Supports both local SQLite and remote [Turso (libsql)](https://turso.tech/) databases.
@@ -12,7 +12,7 @@ A comprehensive, up-to-date database of professional Dota 2 matches, extracted f
 
 ## Download Latest Database
 
-A fresh SQLite database is published weekly, containing all completed leagues from Feb 16, 2025 onward (with prize pool ≥ $1,000,000).
+A fresh SQLite database is published weekly, containing all completed T1 tournaments from Feb 16, 2025 onward, identified via Liquipedia.
 
 [Download latest sqlite database](https://github.com/dca123/dota-pro-db/releases/tag/latest)
 
@@ -75,7 +75,7 @@ This command will:
 
 ### 3. Bulk Import All Pro Leagues
 
-Fetches and imports all pro leagues (with prize pool ≥ $1,000,000) since Feb 16, 2025.
+Fetches and imports all T1 tournaments since Feb 16, 2025, identified using Liquipedia's tier classification system.
 
 ```sh
 cd cmd/get_pro_leagues
@@ -86,10 +86,11 @@ go run main.go --turso
 ```
 
 This command will:
-- Fetch a list of all professional leagues meeting the criteria
-- Check which leagues are already in your database
-- Import all missing leagues and their matches
-- Skip leagues that are already imported
+- Query Liquipedia to identify all T1 (Tier 1) professional tournaments
+- Cross-reference with Stratz API to get complete tournament data
+- Check which tournaments are already in your database
+- Import all missing tournaments and their matches
+- Skip tournaments that are already imported
 
 ### 4. Using the `--turso` Flag
 
@@ -136,13 +137,14 @@ This project includes GitHub Actions workflows that automatically update the dat
 ### Weekly SQLite Database Update
 
 A GitHub Action runs every Sunday to:
-1. Fetch all new professional matches
-2. Update the SQLite database
-3. Publish the updated database as a GitHub Release
+1. Query Liquipedia for new T1 tournaments
+2. Fetch all new professional matches from identified tournaments
+3. Update the SQLite database
+4. Publish the updated database as a GitHub Release
 
 ### Weekly Turso Database Update
 
-A separate GitHub Action runs every Sunday to update the remote Turso database with the latest matches.
+A separate GitHub Action runs every Sunday to update the remote Turso database with the latest matches from T1 tournaments identified via Liquipedia.
 
 ## License & Contributing
 
